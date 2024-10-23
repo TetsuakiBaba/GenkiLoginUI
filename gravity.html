@@ -26,9 +26,9 @@
 </head>
 
 <body>
-    <input type="text" id="username" placeholder="Username"
+    <input type="text" id="username" autocomplete="off" placeholder="Username"
         onclick="engine.world.gravity.y = 1.0;Body.setVelocity(usernameBody, { x: (Math.random()-0.5)*10, y: (Math.random()-0.5)*10 });">
-    <input type="password" id="password" placeholder="Password"
+    <input type="password" id="password" autocomplete="off" placeholder="Password"
         onclick="engine.world.gravity.y = -1.0;Body.setVelocity(passwordBody, { x: (Math.random()-0.5)*10, y: (Math.random()-0.5)*10 });">
     <button id="loginButton">Login</button>
     <script>
