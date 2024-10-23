@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matter.js Login Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        input,
+        button {
+            position: absolute;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="username" placeholder="Username"
+        onclick="engine.world.gravity.y = 1.0;Body.setVelocity(usernameBody, { x: (Math.random()-0.5)*10, y: (Math.random()-0.5)*10 });">
+    <input type="password" id="password" placeholder="Password"
+        onclick="engine.world.gravity.y = -1.0;Body.setVelocity(passwordBody, { x: (Math.random()-0.5)*10, y: (Math.random()-0.5)*10 });">
+    <button id="loginButton">Login</button>
+    <script>
+        // モジュールのエイリアスを作成
+        const Engine = Matter.Engine,
+            Render = Matter.Render,
+            World = Matter.World,
+            Bodies = Matter.Bodies,
+            Body = Matter.Body,
+            Mouse = Matter.Mouse,
+            MouseConstraint = Matter.MouseConstraint,
+            Events = Matter.Events;
+
+        // エンジンを作成
+        const engine = Engine.create();
+
+        // 重力の強さを設定
+        engine.world.gravity.y = 0.0; // 重力の強さを変更（1がデフォルト、0.5は半分の強さ）
+
+        // レンダラーを作成
+        const render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: '#fafafa'
+            }
+        });
+
+        // 壁を作成
+        const wallThickness = 50;
+        const walls = [
+            Bodies.rectangle(window.innerWidth / 2, -wallThickness / 2, window.innerWidth, wallThickness, { isStatic: true }), // 上
+            Bodies.rectangle(window.innerWidth / 2, window.innerHeight + wallThickness / 2, window.innerWidth, wallThickness, { isStatic: true }), // 下
+            Bodies.rectangle(-wallThickness / 2, window.innerHeight / 2, wallThickness, window.innerHeight, { isStatic: true }), // 左
+            Bodies.rectangle(window.innerWidth + wallThickness / 2, window.innerHeight / 2, wallThickness, window.innerHeight, { isStatic: true }) // 右
+        ];
+
+        // input要素を物理的なボディとして追加
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+
+        const usernameElement = document.getElementById('username');
+        const usernameBody = Bodies.rectangle(centerX, centerY - 100, 200, 40, {
+            restitution: 0.5,
+            render: {
+                fillStyle: '#e74c3c'
+            }
+        });
+
+        const passwordElement = document.getElementById('password');
+        const passwordBody = Bodies.rectangle(centerX, centerY, 200, 40, {
+            restitution: 0.5,
+            render: {
+                fillStyle: '#3498db'
+            }
+        });
+
+        const loginButtonElement = document.getElementById('loginButton');
+        const loginButtonBody = Bodies.rectangle(centerX, centerY + 100, 40, 40, {
+            restitution: 0.5,
+            render: {
+                fillStyle: '#2ecc71'
+            }
+        });
+
+        // ワールドに壁と各要素を追加
+        World.add(engine.world, [...walls, usernameBody, passwordBody, loginButtonBody]);
+
+        // エンジンとレンダラーを実行
+        Engine.run(engine);
+        Render.run(render);
+
+        // 各要素の位置と回転を物理ボディに追従させる
+        (function updateElementPositions() {
+            usernameElement.style.left = `${usernameBody.position.x - 100}px`;
+            usernameElement.style.top = `${usernameBody.position.y - 20}px`;
+            usernameElement.style.transform = `rotate(${usernameBody.angle}rad)`;
+
+            passwordElement.style.left = `${passwordBody.position.x - 100}px`;
+            passwordElement.style.top = `${passwordBody.position.y - 20}px`;
+            passwordElement.style.transform = `rotate(${passwordBody.angle}rad)`;
+
+            loginButtonElement.style.left = `${loginButtonBody.position.x - 50}px`;
+            loginButtonElement.style.top = `${loginButtonBody.position.y - 20}px`;
+            loginButtonElement.style.transform = `rotate(${loginButtonBody.angle}rad)`;
+
+            requestAnimationFrame(updateElementPositions);
+        })();
+
+        // ウィンドウのリサイズイベントに対応
+        window.addEventListener('resize', () => {
+            render.options.width = window.innerWidth;
+            render.options.height = window.innerHeight;
+            render.canvas.width = window.innerWidth;
+            render.canvas.height = window.innerHeight;
+
+            // 壁を再配置
+            Matter.Body.setPosition(walls[0], { x: window.innerWidth / 2, y: -wallThickness / 2 });
+            Matter.Body.setPosition(walls[1], { x: window.innerWidth / 2, y: window.innerHeight + wallThickness / 2 });
+            Matter.Body.setPosition(walls[2], { x: -wallThickness / 2, y: window.innerHeight / 2 });
+            Matter.Body.setPosition(walls[3], { x: window.innerWidth + wallThickness / 2, y: window.innerHeight / 2 });
+
+            // 各要素の再配置
+            Matter.Body.setPosition(usernameBody, { x: window.innerWidth / 2, y: window.innerHeight / 2 - 100 });
+            Matter.Body.setPosition(passwordBody, { x: window.innerWidth / 2, y: window.innerHeight / 2 });
+            Matter.Body.setPosition(loginButtonBody, { x: window.innerWidth / 2, y: window.innerHeight / 2 + 100 });
+        });
+
+        // マウス操作を追加
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+        World.add(engine.world, mouseConstraint);
+
+        render.mouse = mouse;
+    </script>
+</body>
+
+</html>
