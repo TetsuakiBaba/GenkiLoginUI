@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>もっとぽこぽこ動くログイン画面</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(45deg, #FF6B6B, #FFE66D, #4ECDC4, #556270);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: scale(1);
+      animation: containerPop 3s ease-in-out infinite;
+    }
+
+    @keyframes containerPop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 24px;
+      animation: textPop 2s ease infinite;
+    }
+
+    @keyframes textPop {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 50px;
+      outline: none;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .input-field:focus {
+      border-color: #FF6B6B;
+      transform: scale(1.1);
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: linear-gradient(45deg, #FF6B6B, #FFAA6B);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+      animation: buttonPop 2s ease-in-out infinite;
+    }
+
+    .login-button:hover {
+      background: linear-gradient(45deg, #FFAA6B, #FF6B6B);
+      transform: scale(1.2);
+    }
+
+    .login-button:active {
+      transform: scale(1.1);
+    }
+
+    @keyframes buttonPop {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>ログインしよー😻</h2>
+    <div class="login-form">
+      <input type="text" placeholder="ユーザー名" class="input-field">
+      <input type="password" placeholder="パスワード" class="input-field">
+      <button class="login-button">ログイン</button>
+    </div>
+  </div>
+
+  <script>
+    const inputFields = document.querySelectorAll('.input-field');
+
+    inputFields.forEach((input) => {
+      input.addEventListener('focus', () => {
+        input.style.animation = 'bounce 0.6s ease';
+        input.addEventListener('animationend', () => {
+          input.style.animation = '';
+        });
+      });
+    });
+
+    document.querySelector('.login-button').addEventListener('click', () => {
+      const button = document.querySelector('.login-button');
+      button.style.animation = 'pop 0.4s ease';
+      button.addEventListener('animationend', () => {
+        button.style.animation = '';
+      });
+    });
+  </script>
+</body>
+</html>

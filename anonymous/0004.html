@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動くログインボタンの小さなログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            width: 180px;
+            padding: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            text-align: center;
+            position: relative;
+        }
+        .login-container h2 {
+            margin-bottom: 10px;
+            font-size: 1em;
+            color: #333;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 5px;
+            margin: 4px 0;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 0.8em;
+        }
+        .login-container button {
+            width: 0.1%;
+            padding: 0.0001px;
+            font-size: 0.00008em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form action="/login" method="post">
+            <input type="text" name="username" placeholder="ユーザー名" required>
+            <input type="password" name="password" placeholder="パスワード" required>
+            <button type="submit" id="login-button">ログイン</button>
+        </form>
+    </div>
+
+    <script>
+        const loginButton = document.getElementById('login-button');
+        loginButton.addEventListener('mouseover', () => {
+            // ボタンがランダムに移動する位置を計算
+            const container = document.querySelector('.login-container');
+            const maxX = container.clientWidth - loginButton.clientWidth;
+            const maxY = container.clientHeight - loginButton.clientHeight;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+
+            // ボタンの新しい位置を設定
+            loginButton.style.position = 'absolute';
+            loginButton.style.left = `${randomX}px`;
+            loginButton.style.top = `${randomY}px`;
+        });
+    </script>
+</body>
+</html>

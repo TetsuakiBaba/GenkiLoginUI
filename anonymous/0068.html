@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            /* 初期状態では他の画面を非表示に */
+            #usernameScreen,
+            #loginComplete {
+                display: none;
+            }
+
+            /* アルファベットボタンのスタイル */
+            .alphabet-btn {
+                padding: 10px;
+                font-size: 18px;
+                cursor: pointer;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                background-color: #fff;
+                position: absolute;
+                transition: all 2s ease;
+            }
+
+            .alphabet-btn:hover {
+                background-color: #f0f0f0;
+            }
+
+            /* 入力表示エリアのスタイル */
+            #inputDisplay {
+                font-size: 24px;
+                margin: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                min-height: 40px;
+            }
+
+            /* 操作ボタンのスタイル */
+            .control-buttons {
+                margin: 20px;
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            .control-btn {
+                padding: 10px 20px;
+                margin: 0 5px;
+                font-size: 16px;
+                cursor: pointer;
+            }
+
+            /* アルファベットボタンのコンテナ */
+            #alphabetContainer {
+                position: relative;
+                height: 70vh;
+                margin-bottom: 100px;
+            }
+
+            /* 初期画面のスタイル */
+            #welcomeScreen {
+                text-align: center;
+                padding: 50px;
+            }
+
+            #welcomeScreen h2 {
+                font-size: 28px;
+                margin-bottom: 30px;
+            }
+
+            #welcomeScreen .control-btn {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+
+            /* ログイン完了画面のスタイル */
+            #loginComplete {
+                text-align: center;
+                padding: 50px;
+            }
+
+            .complete-message {
+                font-size: 24px;
+                color: #4caf50;
+                margin: 30px 0;
+            }
+
+            /* アルファベットボタンのコンテナのスタイルを修正 */
+            #alphabetContainer {
+                position: relative;
+                height: 70vh;
+                width: 90%; /* 幅を追加 */
+                max-width: 1000px; /* 最大幅を設定 */
+                margin: 0 auto; /* 中央寄せ */
+                margin-bottom: 100px;
+                border: 1px solid #ccc; /* 境界線を追加して視覚化 */
+                background-color: #f8f9fa; /* 背景色を追加 */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 初期画面 -->
+        <div id="welcomeScreen">
+            <h2>ようこそ</h2>
+            <button class="control-btn" onclick="showUsernameScreen()">
+                ユーザー名を入力する
+            </button>
+        </div>
+
+        <!-- ユーザー名入力画面 -->
+        <div id="usernameScreen">
+            <h2>ユーザー名入力</h2>
+            <div id="inputDisplay"></div>
+            <div id="alphabetContainer"></div>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="clearAll()">削除</button>
+                <button class="control-btn" onclick="submitUsername()">
+                    ログイン
+                </button>
+                <button class="control-btn" onclick="showwelcomeScreen()">
+                    戻る
+                </button>
+            </div>
+        </div>
+
+        <!-- ログイン完了画面 -->
+        <div id="loginComplete">
+            <div class="complete-message">
+                <h2>ログイン完了！</h2>
+                <p>ようこそ、<span id="welcomeUsername"></span>さん！</p>
+            </div>
+            <div class="control-buttons">
+                <button class="control-btn" onclick="showwelcomeScreen()">
+                    最初に戻る
+                </button>
+            </div>
+        </div>
+
+        <script>
+            // アルファベットボタンを生成
+            function createAlphabetButtons() {
+                const container = document.getElementById("alphabetContainer");
+                const containerRect = container.getBoundingClientRect();
+                console.log("Container rect:", containerRect.width);
+
+                for (let i = 65; i <= 90; i++) {
+                    const letter = String.fromCharCode(i);
+                    const button = document.createElement("button");
+                    button.className = "alphabet-btn";
+                    button.textContent = letter;
+                    button.onclick = () => addLetter(letter);
+
+                    // ランダムな初期位置を設定
+                    const randomX =
+                        Math.random() * (containerRect.width - 50) + 25;
+                    const randomY =
+                        Math.random() * (containerRect.height - 50) + 25;
+                    button.style.left = randomX + "px";
+                    button.style.top = randomY + "px";
+                    console.log(
+                        "Button",
+                        letter,
+                        "position:",
+                        randomX,
+                        randomY
+                    );
+
+                    container.appendChild(button);
+                }
+
+                // ボタンの移動を開始
+                startMovingButtons();
+            }
+
+            let intervalId = null;
+
+            // ボタンをランダムに移動させる関数
+            function startMovingButtons() {
+                const buttons = document.getElementsByClassName("alphabet-btn");
+                const container = document.getElementById("alphabetContainer");
+                const containerRect = container.getBoundingClientRect();
+                moveButtons(buttons, containerRect);
+
+                if (intervalId) {
+                    clearInterval(intervalId);
+                }
+
+                intervalId = setInterval(
+                    () => moveButtons(buttons, containerRect),
+                    2000
+                );
+            }
+
+            function moveButtons(buttons, containerRect) {
+                Array.from(buttons).forEach((button) => {
+                    const randomX =
+                        Math.random() * (containerRect.width - 50) + 25;
+                    const randomY =
+                        Math.random() * (containerRect.height - 50) + 25;
+                    button.style.left = randomX + "px";
+                    button.style.top = randomY + "px";
+                });
+            }
+
+            // 画面表示時にアルファベットボタンを生成
+            function showUsernameScreen() {
+                // 画面の切り替え
+                document.getElementById("welcomeScreen").style.display = "none";
+                document.getElementById("usernameScreen").style.display =
+                    "block";
+                console.log("Username screen displayed");
+
+                // レンダリング完了後にボタンを生成
+                requestAnimationFrame(() => {
+                    // 既存のボタンをクリア（必要な場合）
+                    const container =
+                        document.getElementById("alphabetContainer");
+                    container.innerHTML = "";
+
+                    // 新しくボタンを生成
+                    createAlphabetButtons();
+                    console.log("New buttons created");
+                });
+            }
+            function addLetter(letter) {
+                const display = document.getElementById("inputDisplay");
+                display.textContent += letter;
+            }
+
+            // すべての文字を消去する関数
+            function clearAll() {
+                const display = document.getElementById("inputDisplay");
+                display.textContent = "";
+            }
+
+            function submitUsername() {
+                const username =
+                    document.getElementById("inputDisplay").textContent;
+                if (username.trim() === "") {
+                    alert("ユーザー名を入力してください");
+                    return;
+                }
+                if (username.length < 5) {
+                    alert("ユーザー名は5文字以上で入力してください");
+                    return;
+                }
+                document.getElementById("welcomeUsername").textContent =
+                    username;
+                document.getElementById("usernameScreen").style.display =
+                    "none";
+                document.getElementById("loginComplete").style.display =
+                    "block";
+            }
+
+            function showwelcomeScreen() {
+                document.getElementById("usernameScreen").style.display =
+                    "none";
+                document.getElementById("loginComplete").style.display = "none";
+                document.getElementById("welcomeScreen").style.display =
+                    "block";
+                document.getElementById("inputDisplay").textContent = "";
+            }
+        </script>
+    </body>
+</html>

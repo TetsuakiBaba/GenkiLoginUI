@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  
+  <
+<meta charset="UTF-8">
+  
+  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不規則に動くログイン画面</title>
+  
+  <
+<style>
+    bo
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+      position: relative;
+      animation: irregularBounce 3s infinite;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      animation: irregularSize 2.5s infinite alternate;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      outline: none;
+      animation: irregularMove 1.2s infinite alternate, irregularSize 1.8s infinite alternate;
+    }
+
+    label {
+      position: absolute;
+      top: -1.5rem;
+      left: 0;
+      font-size: 0.9rem;
+      color: #333;
+      animation: spinLabel 2s infinite linear, irregularSize 3s infinite alternate;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      animation: irregularMove 1.5s infinite alternate-reverse, irregularSize 2s infinite alternate;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    @keyframes irregularSize {
+      0% { font-size: 1rem; }
+      25% { font-size: 1.2rem; }
+      50% { font-size: 1.5rem; }
+      75% { font-size: 0.8rem; }
+      100% { font-size: 1rem; }
+    }
+
+    @keyframes spinLabel {
+      0% { transform: rotate(0deg); }
+      25% { transform: rotate(90deg); }
+      50% { transform: rotate(180deg); }
+      75% { transform: rotate(270deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes irregularMove {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(30px, -20px) rotate(10deg); }
+      40% { transform: translate(-50px, 30px) rotate(-10deg); }
+      60% { transform: translate(40px, 50px) rotate(15deg); }
+      80% { transform: translate(-30px, -40px) rotate(-5deg); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes irregularBounce {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-30px) scale(1.1); }
+      50% { transform: translateY(10px) scale(0.9); }
+      75% { transform: translateY(-20px) scale(1.05); }
+      100% { transform: translateY(0); }
+    }
+
+    input::placeholder {
+      animation: shakeText 0.6s infinite alternate, irregularSize 1.5s infinite alternate;
+    }
+
+    @keyframes shakeText {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(8px); }
+      40% { transform: translateX(-8px); }
+      60% { transform: translateX(5px); }
+      80% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+  </style>
+
+</head
+</head>
+<body>
+  <div class="login-container">
+    
+    <
+
+  
+<h2>ログイン</h2>
+    <form>
+      
+     
+<div class="input-group">
+        
+       
+<label for="username">ユーザー名</label>
+        
+    
+
+ 
+<input type="text" id="username" placeholder="ユーザー名を入力">
+      
+      </div
+</div>
+      
+    
+<div class="input-group">
+        
+     
+<label for="password">パスワード</label>
+        
+        <
+
+      
+
+   
+<input type="password" id="password" placeholder="パスワードを入力">
+      </div>
+      
+   
+<button type="submit">ログイン</button>
+    
+    </fo
+
+    <
+
+  
+</form>
+  </div>
+</body>
+</html>

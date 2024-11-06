@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #867ba9;
+            position: relative;
+            transition: background-color 0.3s ease; /* 背景色の変更にスムーズなトランジションを追加 */
+        }
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            color: #333;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="file"] {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #2e2930;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2e2930;
+        }
+        /* カウントダウンタイマーのスタイル */
+        .countdown-timer {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 18px;
+            color: #333;
+            background-color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+        }
+        /* 残り5秒で点滅するアニメーション */
+        .countdown-timer.flash {
+            animation: flash 1s infinite alternate;
+        }
+        @keyframes flash {
+            from { background-color: #e4007f; }
+            to { background-color: #867ba9; }
+        }
+        /* 背景点滅のアニメーション */
+        .body-flash {
+            animation: bodyFlash 1s infinite alternate;
+        }
+        @keyframes bodyFlash {
+            from { background-color: #867ba9; }
+            to { background-color: #e4007f; }
+        }
+    </style>
+</head>
+<body>
+    <div class="countdown-timer" id="countdown-timer">残り時間: 30秒</div>
+    
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form action="/login" method="post" enctype="multipart/form-data">
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">パスワード</label>
+            <input type="password" id="password" name="password" required>
+            
+            <label for="selfie">今日の自撮りをアップロード</label>
+            <input type="file" id="selfie" name="selfie" accept="image/*">
+            
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+
+    <script>
+        let countdownTimer;
+        let timeLeft = 30; // 制限時間を30秒に設定
+        let timerStarted = false; // タイマーが開始されたかを追跡
+
+        // カウントダウンの更新関数
+        function updateCountdown() {
+            const countdownDisplay = document.getElementById('countdown-timer');
+            countdownDisplay.textContent = `残り時間: ${timeLeft}秒`;
+
+            // 残り時間が5秒以下になると点滅を開始
+            if (timeLeft <= 5) {
+                document.body.classList.add("body-flash");
+                countdownDisplay.classList.add("flash");
+            }
+
+            timeLeft--;
+
+            // 残り時間が0秒になったらリセット
+            if (timeLeft < 0) {
+                clearInterval(countdownTimer); // カウントダウンの停止
+                resetForm();
+            }
+        }
+
+        // フォームのリセットとカウントダウンのリセット
+        function resetForm() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('selfie').value = '';
+            alert("30秒経過しました。入力内容がリセットされました。");
+            document.body.classList.remove("body-flash"); // リセット時に点滅を停止
+            resetCountdown(); // カウントダウンのリセット
+        }
+
+        // カウントダウンタイマーのリセット関数
+        function resetCountdown() {
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
+            timeLeft = 30; // 残り時間を30秒にリセット
+            document.getElementById('countdown-timer').classList.remove("flash");
+            document.getElementById('countdown-timer').textContent = `残り時間: ${timeLeft}秒`;
+            timerStarted = false; // タイマーの開始フラグをリセット
+        }
+
+        // 入力開始時にタイマーを開始する関数
+        function startTimerOnce() {
+            if (!timerStarted) { // タイマーが未開始の場合のみ開始
+                timerStarted = true;
+                countdownTimer = setInterval(updateCountdown, 1000);
+            }
+        }
+
+        // 入力欄のすべてに対してイベントリスナーを追加
+        document.getElementById('username').addEventListener('input', startTimerOnce);
+        document.getElementById('password').addEventListener('input', startTimerOnce);
+        document.getElementById('selfie').addEventListener('change', startTimerOnce);
+    </script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            cursor: none;
+        }
+
+        #cursor {
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            mix-blend-mode: difference;
+            z-index: 9999;
+            transition: transform 0.2s;
+        }
+
+        .login-container {
+            position: absolute;
+            transform-origin: center;
+            transition: transform 0.5s;
+        }
+
+        .form-group {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+            width: 300px;
+            transition: all 0.3s;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .character {
+            position: fixed;
+            font-size: 24px;
+            pointer-events: none;
+            transition: all 0.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .antigravity {
+            animation: float 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div id="cursor"></div>
+    <div class="login-container" id="loginContainer">
+        <div class="form-group" id="formGroup">
+            <input type="text" placeholder="ユーザー名" id="username">
+            <input type="password" placeholder="パスワード" id="password">
+            <button onclick="loginEffect()">ログイン</button>
+        </div>
+    </div>
+
+    <script>
+        // カスタムカーソル
+        document.addEventListener('mousemove', (e) => {
+            const cursor = document.getElementById('cursor');
+            cursor.style.left = e.clientX - 10 + 'px';
+            cursor.style.top = e.clientY - 10 + 'px';
+        });
+
+        // ランダムな文字を生成
+        const characters = '⭐️🌟✨💫⚡️🌙🌎🚀';
+        let chars = [];
+
+        function createCharacter() {
+            const char = document.createElement('div');
+            char.className = 'character';
+            char.textContent = characters[Math.floor(Math.random() * characters.length)];
+            char.style.left = Math.random() * window.innerWidth + 'px';
+            char.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(char);
+            chars.push(char);
+
+            // 一定時間後に消える
+            setTimeout(() => {
+                char.remove();
+                chars = chars.filter(c => c !== char);
+            }, 5000);
+        }
+
+        // 定期的に文字を生成
+        setInterval(createCharacter, 1000);
+
+        // フォームの重力効果
+        let angle = 0;
+        const loginContainer = document.getElementById('loginContainer');
+        const formGroup = document.getElementById('formGroup');
+
+        function updateGravity() {
+            angle += 0.02;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            const radius = 100;
+            
+            const x = centerX + Math.cos(angle) * radius;
+            const y = centerY + Math.sin(angle) * radius;
+            
+            loginContainer.style.left = x + 'px';
+            loginContainer.style.top = y + 'px';
+            loginContainer.style.transform = `rotate(${angle * 30}deg)`;
+
+            requestAnimationFrame(updateGravity);
+        }
+
+        // 入力フィールドの反重力効果
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.classList.add('antigravity');
+            });
+            
+            input.addEventListener('blur', () => {
+                input.classList.remove('antigravity');
+            });
+
+            // 入力時に文字が飛び散る効果
+            input.addEventListener('input', (e) => {
+                if (e.inputType === 'deleteContentBackward') return;
+                
+                const char = document.createElement('div');
+                char.className = 'character';
+                char.textContent = e.data || '✨';
+                char.style.left = input.getBoundingClientRect().left + 'px';
+                char.style.top = input.getBoundingClientRect().top + 'px';
+                document.body.appendChild(char);
+
+                // 文字を飛ばす
+                setTimeout(() => {
+                    char.style.left = Math.random() * window.innerWidth + 'px';
+                    char.style.top = Math.random() * window.innerHeight + 'px';
+                    char.style.transform = `scale(${Math.random() * 2 + 1})`;
+                    
+                    setTimeout(() => char.remove(), 1000);
+                }, 0);
+            });
+        });
+
+        function loginEffect() {
+            // ログインボタンクリック時の効果
+            formGroup.style.transform = 'scale(0)';
+            
+            // 爆発効果
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'character';
+                particle.textContent = '✨';
+                particle.style.left = window.innerWidth / 2 + 'px';
+                particle.style.top = window.innerHeight / 2 + 'px';
+                document.body.appendChild(particle);
+
+                const angle = (Math.PI * 2 / 50) * i;
+                const velocity = 10;
+                const vx = Math.cos(angle) * velocity;
+                const vy = Math.sin(angle) * velocity;
+                
+                let x = window.innerWidth / 2;
+                let y = window.innerHeight / 2;
+                
+                const animate = () => {
+                    x += vx;
+                    y += vy;
+                    particle.style.left = x + 'px';
+                    particle.style.top = y + 'px';
+                    
+                    if (x < window.innerWidth && x > 0 && y < window.innerHeight && y > 0) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        particle.remove();
+                    }
+                };
+                
+                animate();
+            }
+
+            setTimeout(() => {
+                formGroup.style.transform = 'scale(1)';
+            }, 2000);
+        }
+
+        // 開始
+        updateGravity();
+    </script>
+</body>
+</html>

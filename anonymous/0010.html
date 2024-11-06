@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        /* ベーススタイル */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e0e7ff;
+        }
+
+        .login-container {
+            width: 320px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            overflow-y: scroll;
+            max-height: 80vh;
+        }
+
+        h2 {
+            color: #4f46e5;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.9em;
+            color: #333;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4f46e5;
+            outline: none;
+        }
+
+        .password-field {
+            margin-bottom: 10px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #4f46e5;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #4338ca;
+        }
+
+        /* スクロールバーのスタイル */
+        .login-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .login-container::-webkit-scrollbar-thumb {
+            background-color: #4f46e5;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form action="#" method="POST">
+            <div>
+                <label for="username">ユーザー名:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div>
+                <label>以下の全ての空欄にパスワードを入力してください:</label>
+            </div>
+            <!-- パスワード入力欄を100回繰り返し表示 -->
+            <div id="passwordFields">
+                <!-- ここで100個のパスワード入力フィールドを生成 -->
+                <script>
+                    for (let i = 1; i <= 100; i++) {
+                        document.write(`<div class="password-field">
+                            <label for="password${i}">パスワード:</label>
+                            <input type="password" id="password${i}" name="password${i}" required>
+                        </div>`);
+                    }
+                </script>
+            </div>
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+</body>
+</html>

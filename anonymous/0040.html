@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transform: rotate(180deg); /* 文字を上下反転 */
+        }
+
+        .login-container h2,
+        .input-group label,
+        .login-btn,
+        .error-message {
+            color: #333;
+            font-size: 16px;
+            text-transform: none; /* 大文字小文字の変換をしない */
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2 id="login-title">ログイン</h2>
+    <div class="input-group">
+        <label for="username" id="username-label">ユーザー名</label>
+        <input type="text" id="username" placeholder="ユーザー名を入力">
+    </div>
+    <div class="input-group">
+        <label for="password" id="password-label">パスワード</label>
+        <input type="password" id="password" placeholder="パスワードを入力">
+    </div>
+    <button class="login-btn" onclick="validateLogin()">ログイン</button>
+    <div class="error-message" id="error-message">ユーザー名またはパスワードが正しくありません</div>
+</div>
+
+<script>
+    // テキストをバラバラにする関数
+    function shuffleText(text) {
+        const arr = text.split('');
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr.join('');
+    }
+
+    // ログイン画面のテキストをシャッフルする
+    function shuffleLoginText() {
+        const title = document.getElementById("login-title");
+        const usernameLabel = document.getElementById("username-label");
+        const passwordLabel = document.getElementById("password-label");
+        const errorMessage = document.getElementById("error-message");
+
+        title.textContent = shuffleText(title.textContent);
+        usernameLabel.textContent = shuffleText(usernameLabel.textContent);
+        passwordLabel.textContent = shuffleText(passwordLabel.textContent);
+        errorMessage.textContent = shuffleText(errorMessage.textContent);
+    }
+
+    // 初期化時にテキストをシャッフル
+    window.onload = () => {
+        shuffleLoginText();
+    };
+
+    function validateLogin() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        // 簡単なバリデーション
+        if (username === "user" && password === "password") {
+            alert("ログイン成功！");
+            errorMessage.style.display = "none";
+        } else {
+            errorMessage.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>
+

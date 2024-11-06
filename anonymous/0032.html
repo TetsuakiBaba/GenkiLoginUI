@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログインパチンコ</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+        .login-container input[type="email"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #ff0000;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .login-container button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .slot-machine {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            font-size: 2em;
+            color: #333;
+        }
+        .slot {
+            width: 50px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            font-size: 36px;
+            color: #333;
+        }
+        .random-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .random-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>777を出せ</h2>
+    <form action="/login" method="POST">
+        <input type="email" name="email" placeholder="メールアドレス" required>
+        <input type="password" name="password" placeholder="パスワード" required>
+        <button type="submit" id="loginButton" disabled>ログイン</button>
+    </form>
+    <p> <a href="/signup">課金して確率アップ</a></p>
+</div>
+
+<h2>ログインパチンコ</h2>
+<div class="slot-machine" id="slotMachine">
+    <div class="slot" id="slot1">0</div>
+    <div class="slot" id="slot2">0</div>
+    <div class="slot" id="slot3">0</div>
+</div>
+<button class="random-button" onclick="startSlot()">回せ</button>
+
+<script>
+    function startSlot() {
+        document.getElementById('loginButton').disabled = true; // ログインボタンを一旦無効にする
+
+        let count = 0;
+        const interval = setInterval(() => {
+            // 各スロットにランダムな1～9の数字を表示
+            document.getElementById('slot1').textContent = Math.floor(Math.random() * 9) + 1;
+            document.getElementById('slot2').textContent = Math.floor(Math.random() * 9) + 1;
+            document.getElementById('slot3').textContent = Math.floor(Math.random() * 9) + 1;
+
+            // 数秒後にスロットを停止
+            count++;
+            if (count > 20) { // スロットが動く回数を調整
+                clearInterval(interval);
+                checkResult();
+            }
+        }, 100); // スロットのスピードを調整
+    }
+
+    function checkResult() {
+        // 各スロットの数字を取得
+        const slot1 = document.getElementById('slot1').textContent;
+        const slot2 = document.getElementById('slot2').textContent;
+        const slot3 = document.getElementById('slot3').textContent;
+
+        const result = slot1 + slot2 + slot3;
+
+        // 777が出た場合のみログインボタンを有効にする
+        if (result === "777") {
+            document.getElementById('loginButton').disabled = false;
+            alert("おめでとうございます！777が出ました！");
+        } else {
+            alert("残念！もう一度挑戦してください。");
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ラーメン風ログイン画面</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f3d6;
+            font-family: Arial, sans-serif;
+        }
+
+        /* ログインフォーム */
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+
+        /* 湯気アニメーション */
+        .steam {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            background: transparent;
+            border-radius: 50%;
+            opacity: 0;
+            animation: steam-rise 1s infinite;
+        }
+
+        /* 湯気の上昇エフェクト */
+        @keyframes steam-rise {
+            0% {
+                transform: translate(-50%, 0) scale(0.8);
+                opacity: 0.4;
+            }
+            100% {
+                transform: translate(-50%, -40px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* 入力フィールド */
+        .login-input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+        }
+
+        /* 湯切りボタン */
+        .yugiri-button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #ff6347;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        /* 湯切りエフェクト */
+        .yugiri-effect {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 120%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            transform: translateX(-50%) translateY(-100%);
+            opacity: 0.6;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* 湯が切れるアニメーション */
+        .yugiri-button.yugiri-active .yugiri-effect {
+            transform: translateX(-50%) translateY(100%);
+        }
+
+        /* ログイン成功アニメーション */
+        .login-container.login-success {
+            transform: rotate(10deg) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ログインフォーム -->
+    <div class="login-container" id="loginContainer">
+        <h2>美味しいラーメン</h2>
+        <input type="text" id="username" class="login-input" placeholder="ユーザーID">
+        <input type="password" id="password" class="login-input" placeholder="パスワード">
+
+        <!-- 湯切りボタン -->
+        <button class="yugiri-button" id="yugiriButton">
+            湯切り
+            <div class="yugiri-effect"></div>
+        </button>
+
+        <!-- 湯気アニメーション用のエフェクト -->
+        <div class="steam" id="steam1"></div>
+        <div class="steam" id="steam2"></div>
+    </div>
+
+    <script>
+        const yugiriButton = document.getElementById('yugiriButton');
+        const loginContainer = document.getElementById('loginContainer');
+        
+        yugiriButton.addEventListener('click', () => {
+            // 入力チェック
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            if (!username || !password) {
+                alert("ユーザーIDとパスワードを入力してください。");
+                return;
+            }
+
+            // 湯切りアニメーションを開始
+            yugiriButton.classList.add('yugiri-active');
+            
+            // 湯切りアニメーションが終わった後、ログイン完了アニメーションを実行
+            setTimeout(() => {
+                yugiriButton.classList.remove('yugiri-active');
+                
+                // ログイン完了のアニメーションを実行
+                loginContainer.classList.add('login-success');
+                
+                // 湯気アニメーションを表示
+                document.getElementById('steam1').style.animationPlayState = 'running';
+                document.getElementById('steam2').style.animationPlayState = 'running';
+
+                setTimeout(() => {
+                    alert("湯切り完了！ログインしました。"); // 実際のログイン処理に置き換え
+                    // アニメーションを元に戻す
+                    loginContainer.classList.remove('login-success');
+                }, 1000); // 1秒間アニメーション
+            }, 500); // 0.5秒後に湯切りアニメーション完了
+        });
+    </script>
+</body>
+</html>

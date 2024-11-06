@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>紧急ログイン</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #ffcc00;
+        }
+        .login-container {
+            text-align: center;
+            background-color: #333;
+            padding: 30px;
+            border: 5px solid #ffcc00;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 20px red;
+        }
+        .login-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            animation: flash 1s infinite alternate;
+        }
+        @keyframes flash {
+            from { color: red; }
+            to { color: #ffcc00; }
+        }
+        .input-field {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ffcc00;
+            border-radius: 5px;
+            background-color: #222;
+            color: #ffcc00;
+            font-size: 16px;
+            text-align: center;
+            outline: none;
+        }
+        .input-field:focus {
+            background-color: #444;
+        }
+        .login-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            color: #000;
+            background-color: #ffcc00;
+            border: 2px solid #ffcc00;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .login-btn:hover {
+            background-color: red;
+            color: #fff;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-title">⚠️ 注意：非常に危険です！ ⚠️</div>
+        <div class="warning" id="warning-text">警告：输入不完整です！</div>
+        <input type="text" class="input-field" id="username" placeholder="ユーザーID入力してください" onclick="playWarningSound()">
+        <input type="password" class="input-field" id="password" placeholder="密码を入力" onclick="playWarningSound()">
+        <button class="login-btn" onclick="showWarning()">紧急ログイン</button>
+    </div>
+
+    <audio id="warning-sound" src="https://www.soundjay.com/button/beep-07.wav"></audio>
+
+    <script>
+        function playWarningSound() {
+            const sound = document.getElementById('warning-sound');
+            sound.currentTime = 0; // 音の再生をリセット
+            sound.play();
+        }
+
+        function showWarning() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const warningText = document.getElementById('warning-text');
+            if (!username || !password) {
+                warningText.style.display = 'block';
+                playWarningSound();
+            } else {
+                warningText.style.display = 'none';
+                alert('注意：緊急アクセス処理中...');
+            }
+        }
+    </script>
+</body>
+</html>

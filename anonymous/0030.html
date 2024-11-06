@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>逃げるログインボタン</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a, #4d4d4d);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+        .login-box {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            position: relative;
+        }
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ffcc00;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .login-button {
+            padding: 15px 30px;
+            background: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            transition: transform 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>ログイン</h1>
+        <input type="text" placeholder="ユーザー名">
+        <input type="password" placeholder="パスワード">
+        <button class="login-button">ログイン</button>
+    </div>
+
+    <script>
+        const button = document.querySelector('.login-button');
+        const box = document.querySelector('.login-box');
+
+        button.addEventListener('mouseover', () => {
+            const boxRect = box.getBoundingClientRect();
+            const buttonRect = button.getBoundingClientRect();
+            const maxOffsetX = boxRect.width - buttonRect.width;
+            const maxOffsetY = boxRect.height - buttonRect.height;
+
+            // ボタンの新しい位置を計算（大きく移動）
+            const newX = Math.random() * maxOffsetX;
+            const newY = Math.random() * maxOffsetY;
+
+            // ボタンを新しい位置に移動
+            button.style.transform = `translate(${newX}px, ${newY}px)`;
+        });
+    </script>
+</body>
+</html>

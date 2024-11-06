@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Matter.js Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.18.0/matter.min.js"></script>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        input, button { position: absolute; padding: 10px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button id="loginButton">Login</button>
+    <script>
+        const { Engine, Render, World, Bodies, Body, Mouse, MouseConstraint } = Matter;
+
+        // Create engine and renderer
+        const engine = Engine.create();
+        engine.world.gravity.y = 0.0;
+
+        const render = Render.create({
+            element: document.body,
+            engine: engine,
+            options: {
+                width: window.innerWidth,
+                height: window.innerHeight,
+                wireframes: false,
+                background: '#fafafa'
+            }
+        });
+
+        // Wall settings
+        const wallThickness = 50;
+        const walls = [
+            Bodies.rectangle(window.innerWidth / 2, -wallThickness / 2, window.innerWidth, wallThickness, { isStatic: true }),
+            Bodies.rectangle(window.innerWidth / 2, window.innerHeight + wallThickness / 2, window.innerWidth, wallThickness, { isStatic: true }),
+            Bodies.rectangle(-wallThickness / 2, window.innerHeight / 2, wallThickness, window.innerHeight, { isStatic: true }),
+            Bodies.rectangle(window.innerWidth + wallThickness / 2, window.innerHeight / 2, wallThickness, window.innerHeight, { isStatic: true })
+        ];
+
+        // Create input fields as Matter.js bodies
+        const usernameBody = Bodies.rectangle(window.innerWidth / 2, window.innerHeight / 2 - 100, 200, 40, {
+            restitution: 0.5,
+            render: { fillStyle: '#e74c3c' }
+        });
+        const passwordBody = Bodies.rectangle(window.innerWidth / 2, window.innerHeight / 2, 200, 40, {
+            restitution: 0.5,
+            render: { fillStyle: '#3498db' }
+        });
+        const loginButtonBody = Bodies.rectangle(window.innerWidth / 2, window.innerHeight / 2 + 100, 40, 40, {
+            restitution: 0.5,
+            render: { fillStyle: '#2ecc71' }
+        });
+
+        // Add bodies to the world
+        World.add(engine.world, [...walls, usernameBody, passwordBody, loginButtonBody]);
+
+        // Run the engine and renderer
+        Engine.run(engine);
+        Render.run(render);
+
+        // Get input elements
+        const usernameElement = document.getElementById('username');
+        const passwordElement = document.getElementById('password');
+        const loginButtonElement = document.getElementById('loginButton');
+
+        // Position elements on the canvas
+        function updateElementPositions() {
+            usernameElement.style.left = `${usernameBody.position.x - 100}px`;
+            usernameElement.style.top = `${usernameBody.position.y - 20}px`;
+            usernameElement.style.transform = `rotate(${usernameBody.angle}rad)`;
+
+            passwordElement.style.left = `${passwordBody.position.x - 100}px`;
+            passwordElement.style.top = `${passwordBody.position.y - 20}px`;
+            passwordElement.style.transform = `rotate(${passwordBody.angle}rad)`;
+
+            loginButtonElement.style.left = `${loginButtonBody.position.x - 20}px`;
+            loginButtonElement.style.top = `${loginButtonBody.position.y - 20}px`;
+            loginButtonElement.style.transform = `rotate(${loginButtonBody.angle}rad)`;
+
+            requestAnimationFrame(updateElementPositions);
+        }
+        updateElementPositions();
+
+        // Add interactions
+        usernameElement.addEventListener('click', () => {
+            engine.world.gravity.y = (Math.random() - 0.5) * 2;
+            Body.setVelocity(usernameBody, { x: (Math.random() - 0.5) * 10, y: (Math.random() - 0.5) * 10 });
+        });
+
+        passwordElement.addEventListener('click', () => {
+            engine.world.gravity.x = (Math.random() - 0.5) * 2;
+            Body.setVelocity(passwordBody, { x: (Math.random() - 0.5) * 10, y: (Math.random() - 0.5) * 10 });
+        });
+
+        loginButtonElement.addEventListener('click', () => {
+            elements = [usernameBody, passwordBody, loginButtonBody];
+            elements.forEach((body) => {
+                Body.applyForce(body, body.position, { x: (Math.random() - 0.5) * 0.05, y: (Math.random() - 0.5) * 0.05 });
+            });
+        });
+
+        // Mouse interaction
+        const mouse = Mouse.create(render.canvas);
+        const mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: { visible: false }
+            }
+        });
+        World.add(engine.world, mouseConstraint);
+
+        render.mouse = mouse;
+    </script>
+</body>
+</html>

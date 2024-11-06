@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .floating-input {
+            width: 200px;
+            padding: 8px;
+            position: absolute;
+            /* 横移動のため */
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <button type="submit" class="login-btn">入る</button>
+    </div>
+
+    <input type="text" id="username" class="floating-input" placeholder="ユーザー名">
+    <input type="password" id="password" class="floating-input" placeholder="パスワード">
+
+    <script>
+        function moveHorizontally(element, speed) {
+            let position = 0;
+            let direction = 1;
+
+            function animate() {
+                position += direction * speed;
+
+                if (position > window.innerWidth - element.offsetWidth) {
+                    direction = -1;
+                } else if (position < 0) {
+                    direction = 1;
+                }
+
+                element.style.left = `${position}px`;
+
+                requestAnimationFrame(animate);
+            }
+
+            animate();
+        }
+
+        moveHorizontally(document.getElementById("username"), 60);
+        moveHorizontally(document.getElementById("password"), 50);
+    </script>
+
+</body>
+
+</html>

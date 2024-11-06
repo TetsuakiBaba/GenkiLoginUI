@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explosive Login Bomb</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .login-container {
+            background: radial-gradient(circle, #333, #111);
+            border: 2px solid #444;
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            position: relative;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+
+        .login-container button {
+            width: 80%;
+            padding: 10px;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .login-container button:hover {
+            background-color: #cc0000;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(3); opacity: 0.7; }
+            100% { transform: scale(20); opacity: 0; }
+        }
+
+        @keyframes fire {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes smoke {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(40); opacity: 0; }
+        }
+
+        @keyframes fuse {
+            0% { height: 60px; background: #fff; }
+            10% { height: 60px; background: #ffcc00; }
+            20% { height: 50px; background: #ffcc00; }
+            30% { height: 40px; background: #ffcc00; }
+            40% { height: 30px; background: #ffcc00; }
+            50% { height: 20px; background: #ff0000; }
+            60% { height: 10px; background: #ff0000; }
+            100% { height: 0; background: #ff0000; }
+        }
+
+        @keyframes debris {
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(var(--x), var(--y)); opacity: 0; }
+        }
+
+        .explode {
+            animation: explode 1s forwards;
+        }
+
+        .fire, .smoke {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .fire {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,69,0,1) 0%, rgba(255,165,0,0.6) 50%, rgba(255,255,0,0) 70%);
+            z-index: 2;
+        }
+
+        .smoke {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(169,169,169,1) 0%, rgba(105,105,105,0.6) 50%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+        }
+
+        .fire.active {
+            animation: fire 1s forwards ease-out;
+            opacity: 1;
+        }
+
+        .smoke.active {
+            animation: smoke 1.5s forwards ease-out;
+            opacity: 1;
+        }
+
+        .fuse {
+            position: absolute;
+            top: -30px; /* Adjust the position above the button */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 60px;
+            background: #fff;
+            border-radius: 5px;
+            animation: fuse 2s forwards;
+            z-index: 3; /* Make sure it is above other elements */
+            overflow: hidden;
+        }
+
+        .debris {
+            position: absolute;
+            opacity: 1;
+            animation: debris 0.5s forwards;
+            background: #ffcc00;
+        }
+
+        /* Additional styles for rubble */
+        .rubble {
+            position: absolute;
+            opacity: 1;
+            animation: debris 0.5s forwards;
+            background: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <div id="fuse" class="fuse burning"></div>
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" oninput="shakeEffect(this)">
+        <input type="password" id="password" placeholder="Password" oninput="shakeEffect(this)">
+        <button id="login-button" onclick="login()">Detonate</button>
+    </div>
+    <div class="fire" id="fire"></div>
+    <div class="smoke" id="smoke"></div>
+
+    <script>
+        let shakeIntensity = 5; // Initial shake intensity
+
+        function shakeEffect(input) {
+            const container = document.getElementById('login-container');
+            const charCount = input.value.length;
+
+            // Update shake intensity based on input length
+            shakeIntensity = Math.min(15, charCount * 2); // Max shake intensity
+
+            container.style.animation = `shake ${0.2 + shakeIntensity * 0.01}s forwards`;
+            
+            // Reset the animation after it's finished
+            setTimeout(() => {
+                container.style.animation = '';
+            }, (0.2 + shakeIntensity * 0.01) * 1000);
+        }
+
+        function createDebris() {
+            const debris = document.createElement('div');
+            debris.classList.add('debris');
+
+            // Randomize size and color for variety
+            const size = Math.random() * 15 + 5; // Size between 5 and 20
+            debris.style.width = `${size}px`;
+            debris.style.height = `${size}px`;
+            debris.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 50%)`; // Random color
+
+            // Randomize position and movement direction
+            debris.style.setProperty('--x', `${(Math.random() - 0.5) * 400}px`); // Random x position
+            debris.style.setProperty('--y', `${(Math.random() - 0.5) * 400}px`); // Random y position
+            debris.style.left = `${50}%`;
+            debris.style.top = `${50}%`;
+
+            document.body.appendChild(debris);
+
+            // Animation ends, remove debris
+            setTimeout(() => {
+                debris.remove();
+            }, 500);
+        }
+
+        function createRubble() {
+            const rubble = document.createElement('div');
+            rubble.classList.add('rubble');
+
+            // Randomize size for variety
+            const size = Math.random() * 30 + 10; // Size between 10 and 40
+            rubble.style.width = `${size}px`;
+            rubble.style.height = `${size}px`;
+            rubble.style.backgroundColor = 'gray'; // Gray for rubble
+
+            // Randomize position and movement direction
+            rubble.style.setProperty('--x', `${(Math.random() - 0.5) * 500}px`); // Random x position
+            rubble.style.setProperty('--y', `${(Math.random() - 0.5) * 500}px`); // Random y position
+            rubble.style.left = `${50}%`;
+            rubble.style.top = `${50}%`;
+
+            document.body.appendChild(rubble);
+
+            // Animation ends, remove rubble
+            setTimeout(() => {
+                rubble.remove();
+            }, 500);
+        }
+
+        function login() {
+            const container = document.getElementById('login-container');
+            const fire = document.getElementById('fire');
+            const smoke = document.getElementById('smoke');
+
+            // Start fire and smoke animations
+            fire.classList.add('active');
+            smoke.classList.add('active');
+
+            // Trigger the explosion effect for the container
+            container.classList.add('explode');
+
+            // Generate debris and rubble
+            for (let i = 0; i < 50; i++) { // Increase the number of debris pieces
+                createDebris();
+            }
+            for (let i = 0; i < 20; i++) { // Generate rubble pieces
+                createRubble();
+            }
+
+            // Hide the container and the fire/smoke after the explosion effect
+            setTimeout(() => {
+                container.style.display = 'none';
+                fire.style.display = 'none';
+                smoke.style.display = 'none';
+                alert('Boom! The login attempt has exploded.');
+            }, 1500);
+        }
+
+        // Automatically trigger login after 5 seconds
+        setTimeout(() => {
+            login();
+        }, 5000);
+    </script>
+</body>
+</html>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

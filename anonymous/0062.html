@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            transition: transform 2s ease-in-out;
+        }
+
+        .container {
+            position: absolute;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            text-align: center;
+            transition: left 1s ease, top 1s ease; /* 追加: 位置変更のアニメーション */
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #45a049;
+        }
+
+        .rotating {
+            animation: rotateAnimation 2s linear infinite;
+        }
+
+        @keyframes rotateAnimation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body id="body">
+    <div class="container" id="login-container">
+        <h2>ログイン</h2>
+        <input type="text" id="username" class="input-field" placeholder="ユーザー名" onclick="rotateScreen()">
+        <input type="password" id="password" class="input-field" placeholder="パスワード" onclick="rotateScreen()">
+        <button class="login-button" onclick="login()">ログイン</button>
+    </div>
+
+    <script>
+        let body = document.getElementById('body');
+        let container = document.getElementById('login-container');
+        
+        function rotateScreen() {
+            body.classList.add('rotating');
+        }
+
+        function login() {
+            alert('ログインしました！');
+        }
+
+        function moveRandomly() {
+            // 画面の幅と高さを取得
+            const maxWidth = window.innerWidth - container.offsetWidth;
+            const maxHeight = window.innerHeight - container.offsetHeight;
+            
+            // ランダムな位置を計算
+            const randomX = Math.floor(Math.random() * maxWidth);
+            const randomY = Math.floor(Math.random() * maxHeight);
+
+            // CSS トランジションを使って滑らかに移動
+            container.style.left = `${randomX}px`;
+            container.style.top = `${randomY}px`;
+        }
+
+        // 一定間隔でランダムに移動
+        setInterval(moveRandomly, 2000);
+    </script>
+</body>
+</html

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>かわいいログイン画面</title>
+    <style>
+        /* ベーススタイル */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFABE1, #FFC3A0);
+            color: #333;
+        }
+
+        .container {
+            background: #FFF;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+        }
+
+        .container h1 {
+            font-size: 2rem;
+            color: #FF6584;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #FF6584;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #FFABE1;
+            box-shadow: 0 0 8px rgba(255, 101, 132, 0.4);
+        }
+
+        .login-button {
+            background-color: #FF6584;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #FF4B69;
+        }
+
+        .message {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .message a {
+            color: #FF6584;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .message a:hover {
+            color: #FF4B69;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ろぐいん💕</h1>
+        <div class="input-group">
+            <label for="username">ユーザー名を入れてね</label>
+            <input type="text" id="username" placeholder="ユーザー名を入力してね">
+        </div>
+        <div class="input-group">
+            <label for="password">パスワードを入れてね</label>
+            <input type="password" id="password" placeholder="パスワードを入力してね">
+        </div>
+        <button class="login-button" onclick="showAlert()">ログインだよー</button>
+        <p class="message">アカウントがないの？ <a href="#">新規登録</a></p>
+    </div>
+
+    <script>
+        function showAlert() {
+            alert("ログインボタンがクリックされました！");
+        }
+    </script>
+</body>
+</html>

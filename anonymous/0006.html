@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            filter: brightness(0.9);
+        }
+
+        .login-button {
+            background-color: #28a745;
+            /* 緑 */
+        }
+
+        .trap-button1 {
+            background-color: #dc3545;
+            /* 赤 */
+        }
+
+        .trap-button2 {
+            background-color: #007bff;
+            /* 青 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form>
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" placeholder="ユーザー名を入力">
+
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" placeholder="パスワード">
+
+            <button type="button" class="login-button">ログイン</button>
+            <button type="button" class="trap-button1" id="trap1">ログイン</button>
+            <button type="button" class="trap-button2" id="trap2">ログイン</button>
+        </form>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const trapButton1 = document.getElementById('trap1');
+        const trapButton2 = document.getElementById('trap2');
+
+        // ユーザー名入力時にパスワード欄にコピー
+        usernameInput.addEventListener('input', function () {
+            passwordInput.value = usernameInput.value;
+        });
+
+        // パスワード入力時にユーザー名欄にコピー
+        passwordInput.addEventListener('input', function () {
+            usernameInput.value = passwordInput.value;
+        });
+
+        // ハズレボタンの機能: 入力内容をクリア
+        function clearInputs() {
+            usernameInput.value = "";
+            passwordInput.value = "";
+        }
+
+        trapButton1.addEventListener('click', clearInputs);
+        trapButton2.addEventListener('click', clearInputs);
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .form-group button {
+            width: 100%; /* 幅を100%に固定 */
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative; /* 初期位置はrelative */
+            box-sizing: border-box; /* ボタンのサイズを固定 */
+            transition: left 0.2s, top 0.2s; /* 移動時のアニメーション */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <button id="loginButton" type="submit">Login</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginButton = document.getElementById('loginButton');
+
+        // 初期ボタンの幅を取得
+        const buttonWidth = loginButton.offsetWidth;
+
+        function moveButton(event) {
+            const buttonHeight = loginButton.offsetHeight;
+            const x = Math.random() * (window.innerWidth - buttonWidth);
+            const y = Math.random() * (window.innerHeight - buttonHeight - 100); // 縦位置調整
+            loginButton.style.position = 'absolute';
+            loginButton.style.width = `${buttonWidth}px`; // 幅を固定
+            loginButton.style.left = `${x}px`;
+            loginButton.style.top = `${y}px`;
+        }
+
+        usernameInput.addEventListener('input', toggleButtonMovement);
+        passwordInput.addEventListener('input', toggleButtonMovement);
+
+        function toggleButtonMovement() {
+            if (usernameInput.value && passwordInput.value) {
+                loginButton.addEventListener('mouseenter', moveButton);
+            } else {
+                loginButton.removeEventListener('mouseenter', moveButton);
+                loginButton.style.position = 'relative'; // 元の位置に戻す
+                loginButton.style.width = '100%'; // 元の幅に戻す
+            }
+        }
+    </script>
+</body>
+</html>

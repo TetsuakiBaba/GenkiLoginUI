@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+        <h1>ログイン</h1>
+        <form action="/login" method="post" style="text-align: center;">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" required>
+            <br>
+            <a href="/C:/Users/Owner/Documents/Login_fool.html" style="background-color: rgb(86, 230, 76); color: white; padding: 10px 20px; text-decoration: none; display: inline-block; text-align: center;">ログインする</a>
+        </form>
+    <!--実際のログイン機能は不要というのを確認する前に作ったのでLogin_success.htmlは無視してください -->
+        <a id="login-link" href="/C:/Users/Owner/Documents/Login_success.html" style="position: fixed; bottom: 10px; left: 10px; color: rgb(185, 185, 185); pointer-events: none; opacity: 0.5;">ログイン</a>
+        <script>
+            document.getElementById('username').addEventListener('input', toggleLink);
+            document.getElementById('password').addEventListener('input', toggleLink);
+
+            function toggleLink() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginLink = document.getElementById('login-link');
+
+            if (username && password) {
+                loginLink.style.pointerEvents = 'auto';
+                loginLink.style.opacity = '1';
+            } else {
+                loginLink.style.pointerEvents = 'none';
+                loginLink.style.opacity = '0.5';
+            }
+            }
+        </script>
+    </div>
+</body>
+</html>

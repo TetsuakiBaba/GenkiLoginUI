@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>ログイン画面</title>
+<style>
+  body { display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; position: relative; }
+  input, button { padding: 10px; font-size: 16px; }
+  button { position: absolute; transition: transform 0.1s linear; }
+  #username { position: relative; }
+  @keyframes explode {
+    to { opacity: 0; transform: scale(2); }
+  }
+</style>
+</head>
+<body>
+<div>
+  <label for="username">ユーザー名:</label>
+  <input type="text" id="username">
+  <label for="password">パスワード:</label>
+  <input type="password" id="password">
+  <button id="loginButton">ログイン</button>
+</div>
+
+<script>
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
+  const loginButton = document.getElementById('loginButton');
+  const usernameBox = username.getBoundingClientRect();
+
+  username.addEventListener('input', () => {
+    setInterval(() => {
+      const x = (Math.random() - 0.5) * 20 * Math.min(username.value.length, 10);
+      const y = (Math.random() - 0.5) * 20 * Math.min(username.value.length, 10);
+      username.style.transform = `translate(${x}px, ${y}px)`;
+    }, 50);
+  });
+
+  password.addEventListener('input', () => {
+    if (password.value.length >= 5) {
+      password.style.animation = 'explode 0.5s forwards';
+    }
+  });
+
+  function moveButton() {
+    const range = 100;  // ユーザー名入力欄の近くでの動きの範囲
+    const centerX = usernameBox.left + usernameBox.width / 2 - loginButton.offsetWidth / 2;
+    const centerY = usernameBox.top + usernameBox.height / 2 - loginButton.offsetHeight / 2;
+    const x = centerX + (Math.random() * 2 * range - range);
+    const y = centerY + (Math.random() * 2 * range - range);
+    loginButton.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  setInterval(moveButton, 3000);  // ログインボタンを3秒後に動かす？？
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container.hilight {
+            animation: flash 1s infinite alternate;
+        }
+
+
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            background-color: rgb(0, 0, 0);
+            animation: glow 1s infinite alternate;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #2afa00ee;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+
+        .username-message {
+            color: red;
+            display: none;
+        }
+
+        @keyframes resize {
+            0%, 100% {
+                transform: scale(1);
+            }
+            5% {
+                transform: scale(0.2);
+            }
+        }
+
+        #password, #username {
+            animation: resize 2s infinite;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2 class="login-title">ログイン</h2>
+
+        <div class="form-group">
+
+</html>
+<script>
+    function copyUsernameToPassword() {
+        const username = document.getElementById('username').value;
+        document.getElementById('password').value = username;
+    }
+
+    document.getElementById('username').addEventListener('input', copyUsernameToPassword);
+
+    function readPassword() {
+        const password = document.getElementById('password').value;
+        const utterance = new SpeechSynthesisUtterance(password);
+        speechSynthesis.speak(utterance);
+    }
+
+</script>
+<form>
+    <div class="form-group">
+    <label for="username">User Name</label>
+    <input type="text" id="username" name="username">
+
+    <div class="form-group">
+    <label for="password">パスワード</label>
+    <input type="password" id="password" name="password">
+    </div>
+    <button type="submit" class="login-btn">ログインボタン</button>
+</form>
+    </div>
+    <style>
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .login-container {
+            animation: rotate 5s linear infinite;
+        }
+    </style>
+    <script>
+
+
+function readPassword() {
+    const password = document.getElementById('password').value;
+    const utterance = new SpeechSynthesisUtterance(password.split('').join(' '));
+    speechSynthesis.speak(utterance);
+}
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        const enterUtterance = new SpeechSynthesisUtterance("ログインボタンをクリックしてください");
+        speechSynthesis.speak(enterUtterance);
+    }
+});
+document.querySelector('.login-btn').addEventListener('mouseover', function() {
+    const button = this;
+    const container = button.closest('.login-container');
+    const containerRect = container.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    const maxX = containerRect.width - buttonRect.width;
+    const maxY = containerRect.height - buttonRect.height;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    button.style.position = 'absolute';
+    button.style.left = `${randomX}px`;
+    button.style.top = `${randomY}px`;
+});
+document.querySelector('.login-btn').addEventListener('click', function(event) {
+    event.preventDefault();
+    const preUtterance = new SpeechSynthesisUtterance("パスワードを読み上げます  みなさんメモのご用意を");
+    preUtterance.onend = function() {
+    readPassword();
+    };
+    speechSynthesis.speak(preUtterance);
+    document.getElementById('username-message').style.display = 'block';
+});
+    </script></form>

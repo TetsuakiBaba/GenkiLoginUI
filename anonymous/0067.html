@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ライオンのインタラクション</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+
+        #lionImage {
+            width: 100vw;
+            height: 100vh;
+            background-image: url('https://illustimage.com/photo/8229.png?20210707'); /* ここに寝ているライオンの画像URLを指定 */
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        #inputForm {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="lionImage"></div>
+
+<div id="inputForm">
+    <h2>ライオンは起きませんでした。</h2>
+    <input type="text" placeholder="あなたの名前を入力してください">
+    <button onclick="submitForm()">送信</button>
+</div>
+
+<script>
+    const lionImage = document.getElementById('lionImage');
+    const inputForm = document.getElementById('inputForm');
+
+    lionImage.onclick = function() {
+        // ランダムにライオンが起きるかどうか決定（30%の確率で吠える）
+        const lionAwake = Math.random() < 0.3; // 30%の確率で起きる
+
+        if (lionAwake) {
+            // ライオンが起きた場合
+            lionImage.style.backgroundImage = "url('https://img.freepik.com/free-vector/barking-lion_1196-1021.jpg?t=st=1730102093~exp=1730105693~hmac=7c2d61652386b106feb074d8b2300ac91edb7270703f1f4efe0f3086e5ad4771&w=1800')"; // 吠えるライオンの画像URLを指定
+            lionImage.innerHTML = ''; // 画像を入れ替え
+            alert("ライオンが吠えました！");
+
+            // 1秒後にタブを閉じる
+            setTimeout(() => {
+                window.close(); // タブを閉じる
+            }, 1000);
+        } else {
+            // ライオンが起きなかった場合
+            lionImage.style.display = 'none'; // ライオンの画像を非表示
+            inputForm.style.display = 'flex'; // 入力フォームを表示
+        }
+    };
+
+    function submitForm() {
+        const name = document.querySelector('input').value;
+        alert(`こんにちは、${name}さん！`);
+        // 必要に応じてフォーム送信処理を追加
+    }
+</script>
+
+</body>
+</html>
+

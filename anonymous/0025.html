@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh; /* ビューポートの高さを指定 */
+        }
+
+        #login-forms {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列に設定 */
+            gap: 20px; /* フォームの間の隙間 */
+            width: 100%;
+            max-width: 800px; /* 最大幅を設定 */
+        }
+
+        .form-group {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #5cb85c;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #4cae4c;
+        }
+
+        .disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <div id="login-forms">
+        <!-- JavaScriptでフォームがここに追加されます -->
+    </div>
+    <button id="check-answers" style="margin-top: 20px;">ログイン情報を確認</button>
+
+    <script>
+        const correctUsername = "user123"; // 正しいユーザー名
+        const correctPassword = "pass123";  // 正しいパスワード
+        const formCount = 12; // フォームの数
+
+        // 乱数で正しいフォームのインデックスを決定
+        const correctIndex = Math.floor(Math.random() * formCount) + 1; 
+
+        for (let i = 1; i <= formCount; i++) {
+            const formDiv = document.createElement('div');
+            formDiv.classList.add('form-group');
+            formDiv.innerHTML = `
+                <label for="username-${i}">ユーザー名 ${i}:</label>
+                <input type="text" id="username-${i}" placeholder="ユーザー名を入力" ${i === correctIndex ? '' : 'disabled'}>
+                <label for="password-${i}">パスワード ${i}:</label>
+                <input type="password" id="password-${i}" placeholder="パスワードを入力" ${i === correctIndex ? '' : 'disabled'}>
+            `;
+            document.getElementById('login-forms').appendChild(formDiv);
+        }
+
+        document.getElementById('check-answers').addEventListener('click', () => {
+            for (let i = 1; i <= formCount; i++) {
+                const username = document.getElementById(`username-${i}`).value;
+                const password = document.getElementById(`password-${i}`).value;
+
+                if (username === correctUsername && password === correctPassword) {
+                    alert(`ログイン成功！ユーザー名: ${username}`);
+                    // 正しいフォーム以外を無効化
+                    disableAllForms(i);
+                    return; // 正しいログインが見つかったので終了
+                }
+            }
+            alert("ユーザー名またはパスワードが正しくありません。");
+        });
+
+        function disableAllForms(exceptIndex) {
+            for (let i = 1; i <= formCount; i++) {
+                if (i === exceptIndex) {
+                    document.getElementById(`username-${i}`).disabled = false;
+                    document.getElementById(`password-${i}`).disabled = false;
+                } else {
+                    document.getElementById(`username-${i}`).disabled = true;
+                    document.getElementById(`password-${i}`).disabled = true;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

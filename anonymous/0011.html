@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面_1DS23320y</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .message {
+            font-size: 12px;
+            color: #333;
+            margin-top: 5px;
+            display: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #3e629d;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #97c6d3;
+        }
+        .ok-button {
+            display: none;
+            margin-top: 10px;
+            background-color: #a1eccb;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form id="loginForm" action="/login" method="POST" onsubmit="handleSubmit(event)">
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" name="username" required>
+            <br>
+            <label for="password">パスワード</label>
+            <input type="password" id="password" name="password" required onblur="handlePasswordBlur()">
+            <div id="passwordMessage" class="message"></div>
+            <br><br>
+            <button type="submit">ログイン</button>
+            <button type="button" class="ok-button" id="okButton" onclick="handleOkClick()">本当のログイン</button>
+        </form>
+    </div>
+
+    <script>
+        const messages = [
+            "せっかくの機会なので、もう一回入れてみては？",
+            "念の為に自分のメモをもう一度見てみましょう",
+            "間違っているかもしれないのでもう一度",
+            "いいですね！では復習です。もう一度どうぞ",
+            "パスワードが違う気がします。なんとなく"
+        ];
+
+        let messageCount = 0;
+
+        function handlePasswordBlur() {
+            showRandomMessage();
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            showRandomMessage();
+            document.getElementById('password').value = ""; // パスワードを消去
+        }
+
+        function showRandomMessage() {
+            const messageElement = document.getElementById('passwordMessage');
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            messageElement.textContent = messages[randomIndex];
+            messageElement.style.display = "block";
+
+            messageCount++;
+
+            if (messageCount >= 5) {
+                const okButton = document.getElementById('okButton');
+                okButton.style.display = "block"; 
+            }
+        }
+
+        function handleOkClick() {
+         
+            window.location.href = '/login'; 
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>ログイン</h2>
+        <form>
+            <input type="text" placeholder="ユーザー名" required>
+            <input type="password" placeholder="パスワード" required>
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+</body>
+</html>
+<script>
+    document.querySelector('input[type="text"]').addEventListener('input', function() {
+        this.style.transform = `rotate(${(this.value.length * 45) % 360}deg)`;
+    });
+</script></script>
+<script>
+    document.querySelector('input[type="password"]').addEventListener('input', function() {
+        this.style.transform = `rotate(${(this.value.length * -45) % 360}deg)`;
+    });
+</script></script>
+
+<script>
+    const usernameInput = document.querySelector('input[type="text"]');
+    const passwordInput = document.querySelector('input[type="password"]');
+    const loginButton = document.querySelector('button');
+
+    loginButton.style.display = 'none';
+
+    let usernameRotations = 0;
+    let passwordRotations = 0;
+
+    usernameInput.addEventListener('input', function() {
+        const rotation = (this.value.length * 45) % 360;
+        this.style.transform = `rotate(${rotation}deg)`;
+        if (rotation === 0 && this.value.length > 0) {
+            usernameRotations++;
+        }
+        checkRotations();
+    });
+
+    passwordInput.addEventListener('input', function() {
+        const rotation = (this.value.length * -45) % 360;
+        this.style.transform = `rotate(${rotation}deg)`;
+        if (rotation === 0 && this.value.length > 0) {
+            passwordRotations++;
+        }
+        checkRotations();
+    });
+
+    function checkRotations() {
+        if (usernameRotations >= 1 && passwordRotations >= 1) {
+            loginButton.style.display = 'block';
+        }
+    }
+</script>

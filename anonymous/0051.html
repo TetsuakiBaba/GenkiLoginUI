@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ストロボログイン画面</title>
+    <style>
+        /* 全体のスタイル */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            animation: strobe 0.1s infinite;
+        }
+
+        /* ストロボ効果 */
+        @keyframes strobe {
+            0% { background-color: #ff0000; }
+            25% { background-color: #00ff00; }
+            50% { background-color: #0000ff; }
+            75% { background-color: #ffff00; }
+            100% { background-color: #ff00ff; }
+        }
+
+        /* ログインコンテナのスタイル */
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            color: #fff;
+            box-shadow: 0 0 10px 5px #fff;
+        }
+
+        /* タイトル */
+        .login-title {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* 入力フィールドのスタイル */
+        .input-field {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #222;
+            color: #fff;
+        }
+
+        /* ボタンのスタイル */
+        .login-button {
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #ff6347;
+            color: #fff;
+            transition: background-color 0.2s;
+        }
+
+        .login-button:hover {
+            background-color: #ff4500;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2 class="login-title">ログイン</h2>
+        <input type="text" class="input-field" placeholder="ユーザー名">
+        <input type="password" class="input-field" placeholder="パスワード">
+        <button class="login-button">ログイン</button>
+    </div>
+</body>
+</html>

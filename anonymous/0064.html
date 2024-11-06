@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>円周率ログイン画面</title>
+    <script>
+        function checkPi() {
+            const pi = "3.14159265358979323846";  // 円周率の最初の20桁
+            const input = document.getElementById("piInput").value;
+
+            if (input === pi) {
+                alert("円周率が正しいです！ユーザー名とパスワードを入力してください。");
+                document.getElementById("loginForm").style.display = "block";  // ログインフォームを表示
+            } else {
+                alert("円周率が間違っています。もう一度お試しください。");
+            }
+        }
+    </script>
+    <style>
+        #loginForm {
+            display: none;  /* 最初は非表示 */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>円周率の最初の20桁を入力してください</h2>
+    <input type="text" id="piInput" placeholder="円周率を入力">
+    <button onclick="checkPi()">送信</button>
+
+    <!-- ユーザー名とパスワードのログインフォーム -->
+    <div id="loginForm">
+        <h2>ログイン画面</h2>
+        <form action="login.html" method="post">
+            <label for="username">ユーザー名:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            <label for="password">パスワード:</label>
+            <input type="password" id="password" name="password" required><br><br>
+            <input type="submit" value="ログイン">
+        </form>
+    </div>
+</body>
+</html>
+s

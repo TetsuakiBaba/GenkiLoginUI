@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン</title>
+  <style>
+    /* 全体レイアウト */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: #f0f2f5;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ボタンをグリッドで並べる */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      grid-gap: 5px;
+      width: 100vw;
+      height: 100vh;
+      padding: 10px;
+    }
+
+    .login-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      font-size: 12px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .login-button:hover {
+      background-color: #0056b3;
+    }
+
+    /* 中央のログインフォーム */
+    .login-form-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+      text-align: center;
+    }
+
+    .login-form-container h1 {
+      font-size: 24px;
+      margin-bottom: 1em;
+      color: #333;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5em;
+    }
+
+    .input-group label {
+      position: absolute;
+      top: 50%;
+      left: 1em;
+      transform: translateY(-50%);
+      font-size: 14px;
+      color: #aaa;
+      transition: all 0.2s ease;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 1em;
+      padding-left: 3em;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      outline: none;
+    }
+
+    .input-group input:focus ~ label,
+    .input-group input:not(:placeholder-shown) ~ label {
+      top: -0.6em;
+      left: 0.8em;
+      font-size: 12px;
+      color: #666;
+      background-color: #fff;
+      padding: 0 0.2em;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 1em;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .submit-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <!-- グリッド状に並ぶログインボタン -->
+  <div class="button-grid" id="buttonGrid"></div>
+
+  <!-- 中央のログインフォーム -->
+  <div class="login-form-container">
+    <h1>ログイン</h1>
+    <div class="input-group">
+      <input type="text" id="username" placeholder=" " required>
+      <label for="username">ユーザー名</label>
+    </div>
+    <div class="input-group">
+      <input type="password" id="password" placeholder=" " required>
+      <label for="password">パスワード</label>
+    </div>
+    <button class="submit-button" onclick="handleLogin()">ログイン</button>
+  </div>
+
+  <script>
+    // グリッドにボタンを生成
+    const buttonGrid = document.getElementById("buttonGrid");
+    for (let i = 0; i < 100; i++) {
+      const button = document.createElement("button");
+      button.classList.add("login-button");
+      button.textContent = "ログイン";
+      buttonGrid.appendChild(button);
+    }
+
+    function handleLogin() {
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      if (username && password) {
+        alert(`ユーザー名: ${username}\nパスワード: ${password}`);
+      } else {
+        alert("ユーザー名とパスワードを入力してください");
+      }
+    }
+  </script>
+</body>
+</html>

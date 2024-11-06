@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .input-field {
+            margin-bottom: 15px;
+            width: 250px;
+            transition: transform 0.3s ease;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <h2>ログイン</h2>
+    <input type="text" id="username" class="input-field" placeholder="ユーザー名" />
+    <input type="password" id="password" class="input-field" placeholder="パスワード" />
+    <button type="submit">ログイン</button>
+</div>
+
+<script>
+    const usernameField = document.getElementById('username');
+    const passwordField = document.getElementById('password');
+
+    document.addEventListener('mousemove', (event) => {
+        const mouseX = event.clientX;
+        const mouseY = event.clientY;
+
+        const usernameRect = usernameField.getBoundingClientRect();
+        const passwordRect = passwordField.getBoundingClientRect();
+
+        // ユーザー名フィールドの中心点
+        const usernameCenterX = usernameRect.left + usernameRect.width / 2;
+        const usernameCenterY = usernameRect.top + usernameRect.height / 2;
+
+        // パスワードフィールドの中心点
+        const passwordCenterX = passwordRect.left + passwordRect.width / 2;
+        const passwordCenterY = passwordRect.top + passwordRect.height / 2;
+
+        // ユーザー名フィールドとの距離を計算
+        const usernameDistance = Math.sqrt(Math.pow(mouseX - usernameCenterX, 2) + Math.pow(mouseY - usernameCenterY, 2));
+
+        // パスワードフィールドとの距離を計算
+        const passwordDistance = Math.sqrt(Math.pow(mouseX - passwordCenterX, 2) + Math.pow(mouseY - passwordCenterY, 2));
+
+        // ユーザー名フィールドの移動
+        if (usernameDistance < 300) {
+            const moveX = ((usernameCenterX - mouseX) / usernameDistance) * (300 - usernameDistance);
+            const moveY = ((usernameCenterY - mouseY) / usernameDistance) * (300 - usernameDistance);
+            usernameField.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+            usernameField.style.transform = 'translate(0, 0)';
+        }
+
+        // パスワードフィールドの移動
+        if (passwordDistance < 300) {
+            const moveX = ((passwordCenterX - mouseX) / passwordDistance) * (300 - passwordDistance);
+            const moveY = ((passwordCenterY - mouseY) / passwordDistance) * (300 - passwordDistance);
+            passwordField.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+            passwordField.style.transform = 'translate(0, 0)';
+        }
+    });
+</script>
+
+</body>
+</html>

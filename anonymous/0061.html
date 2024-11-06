@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>ログイン画面</title>
+  </head>
+  <body class="flex justify-center items-center h-screen bg-gray-200">
+    <div class="w-80 p-5 bg-white shadow-lg rounded-lg">
+      <h2 class="text-3xl font-bold text-center mb-5">ログイン</h2>
+      <div class="mb-4">
+        <label for="username" class="block mb-2">ユーザー名</label>
+        <input
+          tabindex="1"
+          type="text"
+          id="username"
+          name="username"
+          required
+          class="w-full p-2 border border-gray-300 rounded"
+          onpaste="return false;"
+          oncopy="return false;"
+          oncut="return false;"
+          autocomplete="off"
+        />
+      </div>
+      <div class="mb-4">
+        <label for="password" class="block mb-2">パスワード</label>
+        <input
+          tabindex="2"
+          type="password"
+          id="password"
+          name="password"
+          required
+          readonly
+          class="w-full p-2 border border-gray-300 rounded"
+          onpaste="return false;"
+          oncopy="return false;"
+          oncut="return false;"
+          autocomplete="off"
+        />
+      </div>
+      <button class="w-full p-2 bg-slate-800 text-white rounded hover:bg-slate-900" onclick="login()">ログインする</button>
+    </div>
+    <script>
+      let password = "";
+      let loginCount = 0;
+      if (window.location.protocol === "https:") {
+        alert("HTTPでアクセスしてください");
+        window.location.href = "http:";
+      }
+      function generatePassword() {
+        password = Array.from(crypto.getRandomValues(new Uint8Array(96)))
+          .map((b) => String.fromCharCode((b % 94) + 33))
+          .join("");
+        return password;
+      }
+      function login() {
+        if (loginCount === 0) {
+          password = generatePassword();
+          alert("次回ログイン時は以下のパスワードをご利用ください。\n" + password);
+          loginCount++;
+        } else {
+          password = generatePassword();
+          alert("次回ログイン時は以下のパスワードをご利用ください。\n" + password);
+          loginCount++;
+        }
+      }
+    </script>
+  </body>
+</html>
+
+<!-- コメント -->
+<!-- 1. このログイン画面はペーストと自動入力が無効化されています  
+2. 一度ログインすると、次回ログイン時に必要なパスワードが表示されます。しかし、alertを使用して表示しているため、コピペできません。という、地味にイライラするログインフォームを作りました。 -->

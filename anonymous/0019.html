@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>しつこいログイン確認</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 30px;
+            width: 300px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .container h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .step {
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .step input[type="text"],
+        .step input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .button {
+            padding: 5px 10px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .back-button {
+            background-color: #ff5f5f;
+        }
+
+        .message {
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>ログイン確認</h2>
+    <div class="step" id="step1">
+        <button class="button" onclick="showNextStep(2)" style="top: 10px; left: 10px;">ステップ1: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 50px; right: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 80px; left: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 30px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; right: 20px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step2" style="display: none;">
+        <button class="button" onclick="showNextStep(3)" style="top: 20px; right: 20px;">ステップ2: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 50px; left: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; right: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 70px; right: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 80px; left: 80px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step3" style="display: none;">
+        <button class="button" onclick="showNextStep(4)" style="bottom: 20px; left: 20px;">ステップ3: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 40px; right: 15px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; left: 50px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 70px; left: 60px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 20px; right: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 40px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step4" style="display: none;">
+        <button class="button" onclick="showNextStep(5)" style="top: 50px; right: 50px;">ステップ4: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 20px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 60px; left: 50px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 50px; right: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; left: 20px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step5" style="display: none;">
+        <button class="button" onclick="showNextStep(6)" style="bottom: 30px; left: 40px;">ステップ5: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 30px; right: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 80px; left: 50px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 40px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step6" style="display: none;">
+        <button class="button" onclick="showNextStep(7)" style="top: 40px; left: 60px;">ステップ6: 次へ</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 70px; right: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 30px; left: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 20px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; right: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 40px; left: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; right: 30px;">最初に戻る</button>
+    </div>
+    <div class="step" id="step7" style="display: none;">
+        <input type="text" id="username" placeholder="ユーザー名" oninput="enableNextStep(8)">
+        <div class="message">※ユーザー名は必ず8文字以上にしてください</div>
+    </div>
+    <div class="step" id="step8" style="display: none;">
+        <input type="password" id="password" placeholder="パスワード" oninput="enableNextStep(9)">
+        <div class="message">※パスワードは大文字、小文字、数字を含む必要があります</div>
+    </div>
+    <div class="step" id="step9" style="display: none;">
+        <button class="button" onclick="finalConfirmation()" style="bottom: 40px; right: 60px;">ログイン</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 20px; left: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 20px; right: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 60px; left: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 50px; right: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 10px; right: 20px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 4px; right: 80px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 90px; right: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 70px; right: 22px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 14px; right: 5px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 70px; right: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 20px; left: 30px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 10px; left: 10px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 80px; left: 40px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 4px; left: 100px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="top: 60px; left: 50px;">最初に戻る</button>
+        <button class="button back-button" onclick="resetToStart()" style="bottom: 50px; right: 20px;">最初に戻る</button>
+    </div>
+</div>
+
+<script>
+    function showNextStep(step) {
+        document.getElementById('step' + (step - 1)).style.display = 'none';
+        document.getElementById('step' + step).style.display = 'block';
+        randomizeButtonColors(step);
+    }
+
+    function enableNextStep(nextStep) {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        
+        if (nextStep === 8 && username.length >= 8) {
+            showNextStep(nextStep);
+        } else if (nextStep === 9 && password.length >= 6) {
+            showNextStep(nextStep);
+        }
+    }
+
+    function resetToStart() {
+        for (let i = 2; i <= 9; i++) {
+            document.getElementById('step' + i).style.display = 'none';
+        }
+        document.getElementById('step1').style.display = 'block';
+        randomizeButtonColors(1);
+    }
+
+    function finalConfirmation() {
+        alert("ログインに成功しました！ようこそ！");
+    }
+
+    function randomizeButtonColors(step) {
+        const nextButton = document.querySelector(`#step${step} .button:not(.back-button)`);
+        const backButtons = document.querySelectorAll(`#step${step} .back-button`);
+        const randomIndex = Math.floor(Math.random() * (backButtons.length + 1));
+        
+        if (randomIndex < backButtons.length) {
+            nextButton.style.backgroundColor = "#ff5f5f";
+            backButtons[randomIndex].style.backgroundColor = "#007bff";
+        } else {
+            nextButton.style.backgroundColor = "#007bff";
+            backButtons.forEach(btn => btn.style.backgroundColor = "#ff5f5f");
+        }
+    }
+</script>
+
+</body>
+</html>

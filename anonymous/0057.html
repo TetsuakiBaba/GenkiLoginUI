@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-container input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .timer {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="timer" id="timer">10</div>
+        <form id="loginForm">
+            <input type="password" placeholder="パスワード1" required>
+            <input type="password" placeholder="パスワード2" required>
+            <input type="password" placeholder="パスワード3" required>
+            <input type="password" placeholder="パスワード4" required>
+            <input type="password" placeholder="パスワード5" required>
+            <input type="password" placeholder="パスワード6" required>
+            <input type="password" placeholder="パスワード7" required>
+            <input type="password" placeholder="パスワード8" required>
+            <input type="password" placeholder="パスワード9" required>
+            <input type="password" placeholder="パスワード10" required>
+            <button type="submit">ログイン</button>
+        </form>
+    </div>
+    <script>
+        let timeLeft = 10;
+        const timerElement = document.getElementById('timer');
+        const loginForm = document.getElementById('loginForm');
+
+        const countdown = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                alert('時間切れです。');
+                loginForm.querySelectorAll('input').forEach(input => input.disabled = true);
+                loginForm.querySelector('button').disabled = true;
+            } else {
+                timerElement.textContent = timeLeft;
+                timeLeft--;
+            }
+        }, 1000);
+
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            alert('ログイン成功');
+        });
+    </script>
+</body>
+</html>

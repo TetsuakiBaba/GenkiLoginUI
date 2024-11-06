@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン画面</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            text-align: center;
+            width: 100%;
+        }
+        h1 {
+            border: 2px solid green;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ログイン画面</h1>
+    <form>
+        <label for="username1">ユーザーネーム1:</label>
+        <input type="text" id="username1" name="username1"><br><br>
+        
+        <label for="username2">ユーザーネーム2:</label>
+        <input type="text" id="username2" name="username2"><br><br>
+        
+        <label for="username3">ユーザーネーム3:</label>
+        <input type="text" id="username3" name="username3"><br><br>
+        
+        <label for="username4">ユーザーネーム4:</label>
+        <input type="text" id="username4" name="username4"><br><br>
+        
+        <label for="username5">ユーザーネーム5:</label>
+        <input type="text" id="username5" name="username5"><br><br>
+        
+        <label for="password">パスワード:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="ログイン">
+    </form>
+
+    <script>
+        // Disable all username inputs
+        const usernameInputs = document.querySelectorAll('input[type="text"]');
+        usernameInputs.forEach(input => input.disabled = true);
+
+        // Enable one random username input
+        const randomIndex = Math.floor(Math.random() * usernameInputs.length);
+        usernameInputs[randomIndex].disabled = false;
+    </script>
+</body>

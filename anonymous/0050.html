@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>こんなログイン画面は嫌だ</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .login-container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            position: absolute;
+            transition: transform 0.05s ease;  /* 提高迅速反应 */
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .login-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+        <h2>ログイン</h2>
+
+        <div class="form-group">
+            <label for="username">ユーザー名</label>
+            <input type="text" id="username" class="avoid" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">パスワード</label>
+            <input type="password" id="password" class="avoid" required>
+        </div>
+
+        <button type="submit" class="login-btn">入る</button>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.avoid');
+        const runAwayDistance = 150;  // 逃避距離を増やす
+
+        document.addEventListener('mousemove', (event) => {
+            inputs.forEach(input => {
+                const rect = input.getBoundingClientRect();
+                const dx = event.clientX - (rect.left + rect.width / 2);
+                const dy = event.clientY - (rect.top + rect.height / 2);
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < runAwayDistance) {
+                    const angle = Math.atan2(dy, dx) + Math.PI; // Move in opposite direction
+                    const offsetX = Math.cos(angle) * runAwayDistance;
+                    const offsetY = Math.sin(angle) * runAwayDistance;
+
+                    let newX = rect.left + offsetX - (rect.width / 2);
+                    let newY = rect.top + offsetY - (rect.height / 2);
+
+                    newX = Math.min(window.innerWidth - rect.width, Math.max(0, newX));
+                    newY = Math.min(window.innerHeight - rect.height, Math.max(0, newY));
+
+                    input.style.transform = `translate(${newX - rect.left}px, ${newY - rect.top}px)`;
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
